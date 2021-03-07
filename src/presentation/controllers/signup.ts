@@ -6,12 +6,12 @@ import { unprocessableEntity } from '../helpers/http-helper';
 
 export class SignUpController {
   public handle(httpRequest: HttpRequest): HttpResponse {
-    if (!httpRequest.body.name) {
-      return unprocessableEntity(new MissingParamError('name'));
-    }
+    const requiredFields: string[] = ['name', 'email'];
 
-    if (!httpRequest.body.email) {
-      return unprocessableEntity(new MissingParamError('email'));
+    for (let i = 0; i < requiredFields.length; i += 1) {
+      if (!httpRequest.body[requiredFields[i]]) {
+        return unprocessableEntity(new MissingParamError(requiredFields[i]));
+      }
     }
 
     return {
