@@ -28,7 +28,8 @@
       "ignorePackages", {
         "ts": "never"
       }
-    ]
+    ],
+    "max-classes-per-file": ["error", 3]
   },
   "settings": {
     "import/resolver": {
