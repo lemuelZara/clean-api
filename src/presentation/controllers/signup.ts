@@ -4,9 +4,12 @@ import { EmailValidator } from '../protocols/email-validator';
 
 import { MissingParamError } from '../errors/missing-param-error';
 import { InvalidParamError } from '../errors/invalid-param-error';
-import { InternalServerError } from '../errors/internal-server-error';
 
-import { unprocessableEntity, badRequest } from '../helpers/http-helper';
+import {
+  unprocessableEntity,
+  badRequest,
+  internalServerError
+} from '../helpers/http-helper';
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
@@ -41,10 +44,7 @@ export class SignUpController implements Controller {
         body: {}
       };
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new InternalServerError()
-      };
+      return internalServerError();
     }
   }
 }
