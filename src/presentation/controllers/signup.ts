@@ -6,7 +6,7 @@ import { unprocessableEntity } from '../helpers/http-helper';
 
 export class SignUpController {
   public handle(httpRequest: HttpRequest): HttpResponse {
-    const requiredFields: string[] = ['name', 'email'];
+    const requiredFields: string[] = ['name', 'email', 'password'];
 
     for (let i = 0; i < requiredFields.length; i += 1) {
       if (!httpRequest.body[requiredFields[i]]) {
