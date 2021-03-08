@@ -1,10 +1,16 @@
 import { DbAddAccount } from './db-add-account';
 
-import { Encrypter } from './db-add-account-protocols';
+import {
+  Encrypter,
+  AddAccountModel,
+  AccountModel,
+  AddAccountRepository
+} from './db-add-account-protocols';
 
 interface SutTypes {
   sut: DbAddAccount;
   stubEncrypter: Encrypter;
+  stubAddAccountRepository: AddAccountRepository;
 }
 
 const makeEncrypter = (): Encrypter => {
@@ -17,14 +23,33 @@ const makeEncrypter = (): Encrypter => {
   return new StubEncrypter();
 };
 
+const makeAddAccountRepository = (): AddAccountRepository => {
+  class StubAddAccountRepository implements AddAccountRepository {
+    async add(account: AddAccountModel): Promise<AccountModel> {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email',
+        password: 'hashed_password'
+      };
+
+      return new Promise((resolve) => resolve(fakeAccount));
+    }
+  }
+
+  return new StubAddAccountRepository();
+};
+
 const makeSut = (): SutTypes => {
   const stubEncrypter = makeEncrypter();
+  const stubAddAccountRepository = makeAddAccountRepository();
 
-  const sut = new DbAddAccount(stubEncrypter);
+  const sut = new DbAddAccount(stubEncrypter, stubAddAccountRepository);
 
   return {
     sut,
-    stubEncrypter
+    stubEncrypter,
+    stubAddAccountRepository
   };
 };
 
@@ -63,5 +88,25 @@ describe('DbAddAccount Usecase', () => {
     const accountPromise = sut.add(accountData);
 
     await expect(accountPromise).rejects.toThrow();
+  });
+
+  test('Should call AddAccountRepository with correct values', async () => {
+    const { sut, stubAddAccountRepository } = makeSut();
+
+    const addSpy = jest.spyOn(stubAddAccountRepository, 'add');
+
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password'
+    };
+
+    await sut.add(accountData);
+
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'hashed_password'
+    });
   });
 });
