@@ -1,5 +1,7 @@
 import { MongoClient, Collection } from 'mongodb';
 
+import { AccountModel } from '../../../../domain/models/account';
+
 let client: MongoClient;
 
 export const MongoHelper = {
@@ -14,5 +16,12 @@ export const MongoHelper = {
   },
   getCollection(name: string): Collection {
     return client.db().collection(name);
+  },
+  mapping(collection: any): any {
+    const { _id: id, ...collectionWithoutId } = collection;
+
+    const collectionFormatted = { id, ...collectionWithoutId };
+
+    return collectionFormatted;
   }
 };
