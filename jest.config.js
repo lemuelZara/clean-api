@@ -8,8 +8,8 @@ module.exports = {
     '!**/protocols/**'
   ],
   coverageDirectory: 'coverage',
-  testEnvironment: 'node',
   preset: '@shelf/jest-mongodb',
+  watchPathIgnorePatterns: ['globalConfig'],
   transform: {
     '.+\\.ts$': 'ts-jest'
   }
