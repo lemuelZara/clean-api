@@ -29,7 +29,13 @@
         "ts": "never"
       }
     ],
-    "max-classes-per-file": ["error", 3]
+    "max-classes-per-file": ["error", 3],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
