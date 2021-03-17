@@ -16,10 +16,10 @@ export const unprocessableEntity = (error: Error): HttpResponse => {
   };
 };
 
-export const internalServerError = (): HttpResponse => {
+export const internalServerError = (error: Error): HttpResponse => {
   return {
     statusCode: 500,
-    body: new InternalServerError()
+    body: new InternalServerError(error.stack)
   };
 };
 
