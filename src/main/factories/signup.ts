@@ -6,6 +6,7 @@ import { DbAddAccount } from '../../data/use-cases/add-account/db-add-account';
 
 import { BcryptAdapter } from '../../infra/crypto/bcrypt-adapter';
 import { AccountMongoRepository } from '../../infra/database/mongodb/account-repository/account';
+import { LogMongoRepository } from '../../infra/database/mongodb/log-repository/log';
 
 import { LogControllerDecorator } from '../decorators/log';
 
@@ -23,5 +24,7 @@ export const makeSignUpController = (): Controller => {
     addAccount
   );
 
-  return new LogControllerDecorator(signUpController);
+  const logMongoRepository = new LogMongoRepository();
+
+  return new LogControllerDecorator(signUpController, logMongoRepository);
 };
