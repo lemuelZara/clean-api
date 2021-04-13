@@ -1,5 +1,9 @@
 import { LoginController } from './login';
-import { badRequest, internalServerError } from '../../helpers/http-helper';
+import {
+  badRequest,
+  internalServerError,
+  unprocessableEntity
+} from '../../helpers/http-helper';
 import { InvalidParamError, MissingParamError } from '../../errors';
 import { EmailValidator, HttpRequest } from '../signup/signup-protocols';
 import { Authentication } from '../../../domain/use-cases/authentication';
@@ -52,7 +56,7 @@ const makeSut = (): SutTypes => {
 };
 
 describe('Login Controller', () => {
-  test('Should return 400 if no email is provided', async () => {
+  test('Should return 422 if no email is provided', async () => {
     const { sut } = makeSut();
 
     const httpRequest = {
@@ -63,10 +67,12 @@ describe('Login Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest);
 
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')));
+    expect(httpResponse).toEqual(
+      unprocessableEntity(new MissingParamError('email'))
+    );
   });
 
-  test('Should return 400 if no password is provided', async () => {
+  test('Should return 422 if no password is provided', async () => {
     const { sut } = makeSut();
 
     const httpRequest = {
@@ -77,7 +83,9 @@ describe('Login Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest);
 
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')));
+    expect(httpResponse).toEqual(
+      unprocessableEntity(new MissingParamError('password'))
+    );
   });
 
   test('Should return 400 if an invalid email is provided', async () => {
