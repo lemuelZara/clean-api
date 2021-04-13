@@ -1,11 +1,18 @@
 import { HttpResponse } from '../protocols';
 
-import { InternalServerError } from '../errors';
+import { InternalServerError, UnauthorizedError } from '../errors';
 
 export const badRequest = (error: Error): HttpResponse => {
   return {
     statusCode: 400,
     body: error
+  };
+};
+
+export const unauthorized = (): HttpResponse => {
+  return {
+    statusCode: 401,
+    body: new UnauthorizedError()
   };
 };
 
