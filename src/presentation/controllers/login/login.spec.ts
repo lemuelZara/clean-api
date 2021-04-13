@@ -2,6 +2,7 @@ import { LoginController } from './login';
 import {
   badRequest,
   internalServerError,
+  unauthorized,
   unprocessableEntity
 } from '../../helpers/http-helper';
 import { InvalidParamError, MissingParamError } from '../../errors';
@@ -128,5 +129,17 @@ describe('Login Controller', () => {
     await sut.handle(makeFakeRequest());
 
     expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password');
+  });
+
+  test('Should return 401 if invalid credentials are provided', async () => {
+    const { sut, stubAuthentication } = makeSut();
+
+    jest
+      .spyOn(stubAuthentication, 'auth')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(unauthorized());
   });
 });
