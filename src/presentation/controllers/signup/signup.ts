@@ -41,13 +41,6 @@ export class SignUpController implements Controller {
         return unprocessableEntity(error);
       }
 
-      const requiredFields: string[] = [
-        'name',
-        'email',
-        'password',
-        'passwordConfirmation'
-      ];
-
       const { name, email, password, passwordConfirmation } = httpRequest.body;
 
       if (password !== passwordConfirmation) {
