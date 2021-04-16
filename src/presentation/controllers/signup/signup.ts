@@ -7,7 +7,7 @@ import {
   Validation
 } from './signup-protocols';
 
-import { MissingParamError, InvalidParamError } from '../../errors';
+import { InvalidParamError } from '../../errors';
 
 import {
   unprocessableEntity,
@@ -47,12 +47,6 @@ export class SignUpController implements Controller {
         'password',
         'passwordConfirmation'
       ];
-
-      for (let i = 0; i < requiredFields.length; i += 1) {
-        if (!httpRequest.body[requiredFields[i]]) {
-          return unprocessableEntity(new MissingParamError(requiredFields[i]));
-        }
-      }
 
       const { name, email, password, passwordConfirmation } = httpRequest.body;
 
