@@ -6,11 +6,7 @@ import {
   Validation
 } from './signup-protocols';
 
-import {
-  unprocessableEntity,
-  internalServerError,
-  ok
-} from '../../helpers/http-helper';
+import { internalServerError, ok, badRequest } from '../../helpers/http-helper';
 
 export class SignUpController implements Controller {
   private readonly addAccount: AddAccount;
@@ -27,7 +23,7 @@ export class SignUpController implements Controller {
       const error = this.validation.validate(httpRequest.body);
 
       if (error) {
-        return unprocessableEntity(error);
+        return badRequest(error);
       }
 
       const { name, email, password } = httpRequest.body;

@@ -10,11 +10,7 @@ import { MissingParamError, InternalServerError } from '../../errors';
 
 import { HttpRequest } from '../../protocols';
 
-import {
-  ok,
-  internalServerError,
-  unprocessableEntity
-} from '../../helpers/http-helper';
+import { ok, internalServerError, badRequest } from '../../helpers/http-helper';
 
 interface SutTypes {
   sut: SignUpController;
@@ -130,7 +126,7 @@ describe('SignUp Controller', () => {
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 
-  test('Should return 422 if Validation returns an error', async () => {
+  test('Should return 400 if Validation returns an error', async () => {
     const { sut, stubValidation } = makeSut();
 
     jest
@@ -141,7 +137,7 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
 
     expect(httpResponse).toEqual(
-      unprocessableEntity(new MissingParamError('any_field'))
+      badRequest(new MissingParamError('any_field'))
     );
   });
 });
