@@ -2,12 +2,10 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
-  EmailValidator,
-  Authentication
+  Authentication,
+  Validation
 } from './login-protocols';
-import { InvalidParamError, MissingParamError } from '../../errors';
 import {
-  badRequest,
   internalServerError,
   ok,
   unauthorized,
@@ -15,32 +13,24 @@ import {
 } from '../../helpers/http-helper';
 
 export class LoginController implements Controller {
-  private readonly emailValidator: EmailValidator;
-
   private readonly authentication: Authentication;
 
-  constructor(emailValidator: EmailValidator, authentication: Authentication) {
-    this.emailValidator = emailValidator;
+  private readonly validation: Validation;
+
+  constructor(authentication: Authentication, validation: Validation) {
     this.authentication = authentication;
+    this.validation = validation;
   }
 
   public async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const requiredFields: string[] = ['email', 'password'];
+      const error = this.validation.validate(httpRequest.body);
 
-      for (let i = 0; i < requiredFields.length; i += 1) {
-        if (!httpRequest.body[requiredFields[i]]) {
-          return unprocessableEntity(new MissingParamError(requiredFields[i]));
-        }
+      if (error) {
+        return unprocessableEntity(error);
       }
 
       const { email, password } = httpRequest.body;
-
-      const isValid = this.emailValidator.isValid(email);
-
-      if (!isValid) {
-        return badRequest(new InvalidParamError('email'));
-      }
 
       const accessToken = await this.authentication.auth(email, password);
 

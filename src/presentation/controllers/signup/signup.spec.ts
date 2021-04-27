@@ -55,13 +55,13 @@ const makeAddAccount = (): AddAccount => {
 };
 
 const makeValidation = (): Validation => {
-  class StubValidators implements Validation {
+  class StubValidaton implements Validation {
     validate(inputData: any): Error {
       return null;
     }
   }
 
-  return new StubValidators();
+  return new StubValidaton();
 };
 
 const makeSut = (): SutTypes => {
