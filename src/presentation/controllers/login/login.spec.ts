@@ -4,7 +4,7 @@ import {
   ok,
   unauthorized,
   unprocessableEntity
-} from '../../helpers/http-helper';
+} from '../../helpers/http/http-helper';
 import { MissingParamError } from '../../errors';
 import { HttpRequest, Authentication, Validation } from './login-protocols';
 

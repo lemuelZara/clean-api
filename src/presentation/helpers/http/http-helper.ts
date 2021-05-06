@@ -1,6 +1,6 @@
-import { HttpResponse } from '../protocols';
+import { HttpResponse } from '../../protocols';
 
-import { InternalServerError, UnauthorizedError } from '../errors';
+import { InternalServerError, UnauthorizedError } from '../../errors';
 
 export const badRequest = (error: Error): HttpResponse => {
   return {
