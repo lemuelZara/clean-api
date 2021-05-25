@@ -25,11 +25,15 @@
     "import/prefer-default-export": "off",
     "import/extensions": [
       "error",
-      "ignorePackages", {
+      "ignorePackages",
+      {
         "ts": "never"
       }
     ],
-    "max-classes-per-file": ["error", 3],
+    "max-classes-per-file": [
+      "error",
+      4
+    ],
     "import/no-extraneous-dependencies": [
       "error",
       {
