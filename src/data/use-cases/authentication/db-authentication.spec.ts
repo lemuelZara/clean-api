@@ -2,9 +2,11 @@ import { DbAuthentication } from './db-authentication';
 import { LoadAccountByEmailRepository } from '../../protocols/database/load-account-by-email-repository';
 import { AccountModel } from '../add-account/db-add-account-protocols';
 import { AuthenticationModel } from '../../../domain/use-cases/authentication';
+import { HashCompare } from '../../protocols/crypto/hash-compare';
 
 interface SutTypes {
   stubLoadAccountByEmailRepository: LoadAccountByEmailRepository;
+  stubHashCompare: HashCompare;
   sut: DbAuthentication;
 }
 
@@ -13,7 +15,7 @@ const makeFakeAccount = (): AccountModel => {
     id: 'any_id',
     name: 'any_name',
     email: 'any_email@mail.com',
-    password: 'any_password'
+    password: 'hashed_password'
   };
 };
 
@@ -35,12 +37,27 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   return new StubLoadAccountByEmailRepository();
 };
 
+const makeHashCompare = (): HashCompare => {
+  class StubHashCompare implements HashCompare {
+    async compare(value: string, hash: string): Promise<boolean> {
+      return new Promise((resolve) => resolve(true));
+    }
+  }
+
+  return new StubHashCompare();
+};
+
 const makeSut = (): SutTypes => {
   const stubLoadAccountByEmailRepository = makeLoadAccountByEmailRepository();
-  const sut = new DbAuthentication(stubLoadAccountByEmailRepository);
+  const stubHashCompare = makeHashCompare();
+  const sut = new DbAuthentication(
+    stubLoadAccountByEmailRepository,
+    stubHashCompare
+  );
 
   return {
     stubLoadAccountByEmailRepository,
+    stubHashCompare,
     sut
   };
 };
@@ -80,5 +97,15 @@ describe('DbAuthentication Usecase', () => {
     const accessToken = await sut.auth(makeFakeAuthentication());
 
     expect(accessToken).toBeNull();
+  });
+
+  test('Should call HashCompare with correct values', async () => {
+    const { stubHashCompare, sut } = makeSut();
+
+    const compareSpy = jest.spyOn(stubHashCompare, 'compare');
+
+    await sut.auth(makeFakeAuthentication());
+
+    expect(compareSpy).toHaveBeenCalledWith('any_password', 'hashed_password');
   });
 });
