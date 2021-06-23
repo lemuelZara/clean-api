@@ -5,7 +5,7 @@ import { SignUpController } from '../../../presentation/controllers/signup/signu
 
 import { DbAddAccount } from '../../../data/use-cases/add-account/db-add-account';
 
-import { BcryptAdapter } from '../../../infra/crypto/bcrypt-adapter';
+import { BcryptAdapter } from '../../../infra/crypto/bcrypt-adapter/bcrypt-adapter';
 import { AccountMongoRepository } from '../../../infra/database/mongodb/account-repository/account';
 import { LogMongoRepository } from '../../../infra/database/mongodb/log-repository/log';
 
