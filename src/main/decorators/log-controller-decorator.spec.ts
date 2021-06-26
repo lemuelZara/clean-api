@@ -1,4 +1,4 @@
-import { LogControllerDecorator } from './log';
+import { LogControllerDecorator } from './log-controller-decorator';
 
 import {
   Controller,
@@ -10,7 +10,7 @@ import {
   ok
 } from '../../presentation/helpers/http/http-helper';
 
-import { LogErrorRepository } from '../../data/protocols/database/log-error-repository';
+import { LogErrorRepository } from '../../data/protocols/database/log/log-error-repository';
 
 import { AccountModel } from '../../domain/models/account';
 

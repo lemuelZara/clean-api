@@ -4,7 +4,7 @@ import {
   Controller,
   AddAccount,
   Validation
-} from './signup-protocols';
+} from './signup-controller-protocols';
 
 import {
   internalServerError,

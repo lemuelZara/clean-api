@@ -1,6 +1,6 @@
-import { AddAccountRepository } from '../../../../data/protocols/database/add-account-repository';
-import { LoadAccountByEmailRepository } from '../../../../data/protocols/database/load-account-by-email-repository';
-import { UpdateAccessTokenRepository } from '../../../../data/protocols/database/update-access-token-repository';
+import { AddAccountRepository } from '../../../../data/protocols/database/account/add-account-repository';
+import { LoadAccountByEmailRepository } from '../../../../data/protocols/database/account/load-account-by-email-repository';
+import { UpdateAccessTokenRepository } from '../../../../data/protocols/database/account/update-access-token-repository';
 
 import { AccountModel } from '../../../../domain/models/account';
 import { AddAccountModel } from '../../../../domain/use-cases/add-account';

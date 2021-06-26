@@ -1,10 +1,10 @@
-import { SignUpController } from './signup';
+import { SignUpController } from './signup-controller';
 import {
   AccountModel,
   AddAccount,
   AddAccountModel,
   Validation
-} from './signup-protocols';
+} from './signup-controller-protocols';
 
 import { MissingParamError, InternalServerError } from '../../errors';
 

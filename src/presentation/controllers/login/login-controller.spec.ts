@@ -1,4 +1,4 @@
-import { LoginController } from './login';
+import { LoginController } from './login-controller';
 import {
   internalServerError,
   ok,
@@ -11,7 +11,7 @@ import {
   Authentication,
   AuthenticationModel,
   Validation
-} from './login-protocols';
+} from './login-controller-protocols';
 
 interface SutTypes {
   sut: LoginController;
