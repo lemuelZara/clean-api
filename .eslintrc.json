@@ -40,7 +40,8 @@
         "devDependencies": true
       }
     ],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off"
   },
   "settings": {
     "import/resolver": {
